@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { data } from "./GetProvinsi";
 
-export const GetKelurahan = () => {
+export const GetKelurahan = (props) => {
   const [kelurahan, setKelurahan] = useState(null);
 
   var config = {
@@ -12,6 +12,7 @@ export const GetKelurahan = () => {
       "APP-KEY": "okYC7opyhD4DTIauhPvMq2Wkvc6bz08t",
     },
     data: {
+      filter:{kecamatan:props},
       order: { order_by: "kodewilayah", sort: "ASC", page: 1, limit_page: 100 },
     },
   };
@@ -24,7 +25,7 @@ export const GetKelurahan = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, [data]);
+  }, [data, config]);
 
   return kelurahan === null ? null : kelurahan;
 };
