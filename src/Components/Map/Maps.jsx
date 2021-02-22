@@ -56,9 +56,9 @@ export default function Maps(props) {
         <LayersControl.Overlay name="Marker">
           <LayerGroup>
             {DataMap &&
-              DataMap.map((items) => {
+              DataMap.map((items, i) => {
                 return (
-                  <Marker position={items.center} icon={myMarker}>
+                  <Marker key={i} position={items.center} icon={myMarker}>
                     <Tooltip>{items.location}</Tooltip>
                   </Marker>
                 );
@@ -68,9 +68,9 @@ export default function Maps(props) {
         <LayersControl.Overlay name="Polygon">
           <LayerGroup>
             {DataMap &&
-              DataMap.map((items) => {
+              DataMap.map((items, i) => {
                 return (
-                  <Polygon positions={items.polygon}>
+                  <Polygon key={i} positions={items.polygon}>
                     <Tooltip>{items.location}</Tooltip>
                   </Polygon>
                 );
@@ -80,13 +80,11 @@ export default function Maps(props) {
         </LayersControl.Overlay>
         <LayersControl.Overlay checked name="Filter">
           <LayerGroup>
-            {/* <FlyingTo props={props.dataMap.center} /> */}
-            {dataMap && console.log(dataMap[0].center)}
             {dataMap &&
-              dataMap.map((item) => {
+              dataMap.map((item, id) => {
                 return (
                   <Marker
-                    key={item.id}
+                    key={id}
                     position={item.center}
                     icon={myMarker}
                   ></Marker>

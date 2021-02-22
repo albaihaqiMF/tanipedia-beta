@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { data } from "./GetProvinsi";
 
-export const GetKelurahan = (props) => {
+export const GetKelurahan = () => {
   const [kelurahan, setKelurahan] = useState(null);
 
   var config = {
@@ -11,10 +11,10 @@ export const GetKelurahan = (props) => {
     headers: {
       "APP-KEY": "okYC7opyhD4DTIauhPvMq2Wkvc6bz08t",
     },
-    data: {
-      filter:{kecamatan:props},
-      order: { order_by: "kodewilayah", sort: "ASC", page: 1, limit_page: 100 },
-    },
+    // data: {
+    //   filter:{kecamatan:props},
+    //   order: { order_by: "kodewilayah", sort: "ASC", page: 1, limit_page: 100 },
+    // },
   };
 
   useEffect(() => {
