@@ -7,11 +7,40 @@ import { GetKelurahan } from "../../Data/GetKelurahan";
 import { Input, InputGroup } from "reactstrap";
 import "./Navbar.css";
 
+function twoDigit(number) {
+  if (number < 10) {
+    return ("0" + number).toString();
+  } else {
+    return number.toString();
+  }
+}
+
+function fourDigit(number) {
+  if (number < 1000) {
+    if (number < 100) {
+      if (number < 10) {
+        if (number == 0) {
+          return "0000";
+        } else {
+          return ("000" + number).toString();
+        }
+      } else {
+        return ("00" + number).toString();
+      }
+    } else {
+      return ("0" + number).toString();
+    }
+  } else {
+    return number.toString();
+  }
+}
+
 export default function MenuBar() {
   const [provinsi, setprovinsi] = useState(0);
   const [kabupaten, setkabupaten] = useState(0);
   const [kecamatan, setkecamatan] = useState(0);
   const [kelurahan, setkelurahan] = useState(0);
+  const [selected, setselected] = useState("");
 
   const [filter, setfilter] = useState({
     provinsi: 0,
@@ -48,8 +77,24 @@ export default function MenuBar() {
           );
         });
   useEffect(() => {
-    console.log(filter);
+    if (provinsi == 0) {
+      setselected('00.00.00.0000');
+    } else {
+      setselected(
+        filter.provinsi.toString() +
+          "." +
+          twoDigit(filter.kabupaten) +
+          "." +
+          twoDigit(filter.kecamatan) +
+          "." +
+          fourDigit(filter.kelurahan)
+      );
+    }
   }, [filter]);
+  useEffect(() => {
+    console.log(filter);
+    console.log(selected);
+  }, [selected]);
   if (dataKelurahan === null) {
     return <h1>Loading...</h1>;
   } else {
@@ -131,7 +176,7 @@ export default function MenuBar() {
               id="kelurahan"
               onChange={(e) => {
                 e.preventDefault();
-                setkabupaten(e.target.value);
+                setkelurahan(e.target.value);
                 setfilter({
                   ...filter,
                   kelurahan: parseInt(e.target.value),

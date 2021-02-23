@@ -1,12 +1,11 @@
-[
-    {
+[{
         "id": 1,
-        "provinsi":"Lampung",
-        "kabupaten":"Bandar Lampung",
-        "kecamatan":"Pahoman",
-        "location":"Stadion Pahoman",
-        "center":[-5.426150, 105.269698],
-        "polygon":[
+        "provinsi": "Lampung",
+        "kabupaten": "Bandar Lampung",
+        "kecamatan": "Pahoman",
+        "location": "Stadion Pahoman",
+        "center": [-5.426150, 105.269698],
+        "polygon": [
             [-5.425843, 105.266311],
             [-5.426048, 105.268756],
             [-5.425244, 105.268559],
@@ -24,12 +23,12 @@
     },
     {
         "id": 2,
-        "provinsi":"Lampung",
-        "kabupaten":"Bandar Lampung",
-        "kecamatan":"Way Halim",
-        "location":"PKOR Way Halim",
-        "center":[-5.378579, 105.278826],
-        "polygon":[
+        "provinsi": "Lampung",
+        "kabupaten": "Bandar Lampung",
+        "kecamatan": "Way Halim",
+        "location": "PKOR Way Halim",
+        "center": [-5.378579, 105.278826],
+        "polygon": [
             [-5.381137, 105.278002],
             [-5.378706, 105.281459],
             [-5.375237, 105.278151],
@@ -39,12 +38,12 @@
     },
     {
         "id": 3,
-        "provinsi":"Jawa Timur",
-        "kabupaten":"Gresik",
-        "kecamatan":"Ujungpangkah",
-        "location":"Pangkah Wetan",
-        "center":[-6.917953,112.557307],
-        "polygon":[
+        "provinsi": "Jawa Timur",
+        "kabupaten": "Gresik",
+        "kecamatan": "Ujungpangkah",
+        "location": "Pangkah Wetan",
+        "center": [-6.917953, 112.557307],
+        "polygon": [
             [-6.927764, 112.556301],
             [-6.927764, 112.556301],
             [-6.922603, 112.544669],
