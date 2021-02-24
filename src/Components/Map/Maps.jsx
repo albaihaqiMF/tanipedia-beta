@@ -9,12 +9,22 @@ import {
   Tooltip,
   useMap,
   ZoomControl,
+  GeoJSON,
 } from "react-leaflet";
-import L from "leaflet";
+import L, { geoJSON } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Maps.css";
-import DataMap from "./../../Data/dataCoba.json";
+import DataMap from "./../../Static/Data/dataCoba.json";
 import PictMarker from "../../Images/marker.png";
+import dataGeoJSON from "../../Static/Data/dataGeoJson.json";
+import provinceLampung from "../../Static/Data/indonesia-province.json";
+
+const geoJsonStyle = {
+  fillColor: "crimson",
+  fillOpacity: ".8",
+  color: "black",
+  weight: "0.5",
+};
 
 const myMarker = new L.icon({
   iconUrl: PictMarker,
@@ -26,24 +36,39 @@ function FlyingTo({ props }) {
   const map = useMap();
 
   useEffect(() => {
-    props && props === null
-      ? map.flyTo([0, 0], 2)
-      : map.flyTo(props, 13);
+    props && props === null ? map.flyTo([0, 0], 2) : map.flyTo(props, 13);
   }, [props]);
   console.log("flying");
   return null;
 }
+var color = ["#80ff80", "#4dff4d", "#1aff1a", "#00e600", "#00b300"];
 
 export default function Maps(props) {
   const [dataMap, setDataMap] = useState(null);
   useEffect(() => {
     setDataMap(props.data);
   }, [props.data]);
+
+  const MapsEachFeatures = (items, layer) => {
+    const provinsi = items.properties.Propinsi;
+    const map = useMap();
+    const polygon = items.geometry.coordinates;
+
+    var length = 256 - provinsi.length;
+    layer.options.fillColor = `rgb(0,${length},0)`;
+    layer.bindTooltip(provinsi + " " + provinsi.length);
+
+    layer.on({
+      click:()=>{
+        console.log(polygon)
+      }
+    })
+  };
   return (
     <MapContainer
       className="Map"
-      center={[-5.42615, 105.269698]}
-      zoom={9}
+      center={[-1, 116.3671875]}
+      zoom={5.3}
       scrollWheelZoom={true}
       zoomControl={false}
     >
@@ -78,7 +103,7 @@ export default function Maps(props) {
             {/* <Polygon positions={DataMap[2].polygon}/> */}
           </LayerGroup>
         </LayersControl.Overlay>
-        <LayersControl.Overlay checked name="Filter">
+        <LayersControl.BaseLayer name="Filter">
           <LayerGroup>
             {dataMap &&
               dataMap.map((item, id) => {
@@ -91,7 +116,14 @@ export default function Maps(props) {
                 );
               })}
           </LayerGroup>
-        </LayersControl.Overlay>
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer checked name="GeoJSON">
+          <GeoJSON
+            style={geoJsonStyle}
+            data={provinceLampung}
+            onEachFeature={MapsEachFeatures}
+          />
+        </LayersControl.BaseLayer>
       </LayersControl>
     </MapContainer>
   );
