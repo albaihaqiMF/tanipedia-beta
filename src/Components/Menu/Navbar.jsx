@@ -1,54 +1,103 @@
-import React, { useEffect, useState } from "react";
-import Maps from "../Map/Maps";
-import { Input, InputGroup } from "reactstrap";
-import "./Navbar.css";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import 
+import { Input, InputGroup } from "reactstrap";
+import { getProfile } from "../../Redux/Action/OptionMenuActions";
+import {
+  getKabupaten,
+  getKecamatan,
+  getWilayah,
+} from "../../Redux/Action/WilayahAction";
+import Maps from "../Map/Maps";
+import OptionButton from "./Category";
+import "./Navbar.css";
 
-function twoDigit(number) {
-  if (number < 10) {
-    return ("0" + number).toString();
-  } else {
-    return number.toString();
+class MenuBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id_provinsi: null,
+      id_kabupaten: null,
+      id_kecamatan: null,
+      id_kelurahan: null,
+    };
+  }
+  componentDidMount() {
+    this.props.dispatch(getWilayah());
+    this.props.dispatch(getProfile())
+  }
+  render() {
+    const provinsi = this.props.provinsi;
+    const kabupaten = this.props.kabupaten;
+    const kecamatan = this.props.kecamatan;
+    return (
+      <>
+        <div className="Navbar">
+          <InputGroup>
+            <Input
+              type="select"
+              onChange={(e) => {
+                e.preventDefault();
+                this.setState({ id_provinsi: e.target.value });
+                this.props.dispatch(getKabupaten(e.target.value));
+              }}
+            >
+              <option value={false}>Provinsi</option>
+              {provinsi &&
+                provinsi.map((items) => {
+                  return (
+                    <option key={items.id} value={items.provinsi}>
+                      {items.nama}
+                    </option>
+                  );
+                })}
+            </Input>
+            <Input
+              type="select"
+              onChange={(e) => {
+                e.preventDefault();
+                this.setState({ id_kabupaten: e.target });
+                this.props.dispatch(
+                  getKecamatan(this.state.id_provinsi, e.target.value)
+                );
+              }}
+            >
+              <option value="">Kabupaten</option>
+              {kabupaten !== null &&
+                kabupaten.map((items) => {
+                  return (
+                    <option key={items.id} value={items.kabupatenkota}>
+                      {items.nama}
+                    </option>
+                  );
+                })}
+            </Input>
+            <Input type="select">
+              <option value="">Kecamatan</option>
+              {kecamatan !== null &&
+                kecamatan.map((items) => {
+                  return (
+                    <option key={items.id} value={items.kabupatenkota}>
+                      {items.nama}
+                    </option>
+                  );
+                })}
+            </Input>
+          </InputGroup>
+          <OptionButton />
+        </div>
+        <div className="map-container">
+          <Maps />
+        </div>
+      </>
+    );
   }
 }
-
-function fourDigit(number) {
-  if (number < 1000) {
-    if (number < 100) {
-      if (number < 10) {
-        if (number == 0) {
-          return "0000";
-        } else {
-          return ("000" + number).toString();
-        }
-      } else {
-        return ("00" + number).toString();
-      }
-    } else {
-      return ("0" + number).toString();
-    }
-  } else {
-    return number.toString();
-  }
+function mapStateToProps(state) {
+  return {
+    provinsi: state.wilayah.dataProvinsi,
+    kabupaten: state.wilayah.dataKabupaten,
+    kecamatan: state.wilayah.dataKecamatan,
+    kelurahan: state.wilayah.dataKelurahan,
+  };
 }
-
-function MenuBar() {
-  useEffect(()=>{
-    dispatch(getWilayah())
-  })
-  return(
-    <>
-    <div className="Navbar">
-      <InputGroup>
-        <Input type='select'></Input>
-        <Input type='select'></Input>
-        <Input type='select'></Input>
-      </InputGroup>
-    </div>
-    <Maps/>
-    </>
-  )
-}
-
-export default connect()(MenuBar);
+export default connect(mapStateToProps)(MenuBar);

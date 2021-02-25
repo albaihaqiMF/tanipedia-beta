@@ -1,6 +1,53 @@
-.Navbar{
-    background-color: crimson;
-    height: 15vh;
-    padding: 10px;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap');
 
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.Navbar {
+    background-color: darkgreen;
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    padding-bottom: 0;
+
+}
+
+.map-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+.Option-Button {
+    height: 100%;
+    position: relative;
+    z-index: 20;
+}
+
+.btn-option {
+    font-family: 'Poppins', sans-serif;
+    width: 100px;
+    font-weight: 500;
+    margin: 10px;
+    margin-bottom: 0;
+    padding: 5px 10px;
+    outline: none;
+    border: none;
+    border-radius: 10px 10px 0 0;
+}
+
+.btn-option.inactive {
+    background-color: #0CC23F;
+    color: white;
+}
+.btn-option.inactive:hover{
+    background-color: #23CF51;
+}
+
+.btn-option.active {
+    background-color: white;
+    color: #0DC340;
 }

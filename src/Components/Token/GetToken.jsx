@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 export const GetToken = () => {
-  const [token, setToken] = useState(null);
   var axios = require("axios");
   var data = JSON.stringify({
     username: "fahmi",
@@ -21,11 +20,12 @@ export const GetToken = () => {
   useEffect(() => {
     axios(config)
       .then(function (response) {
-        setToken(response.data.data.api_token);
+        localStorage.setItem('API',response.data.data.api_token)
       })
       .catch(function (error) {
         console.log(error);
       });
   },[data]);
+  const token = localStorage.getItem('API')
   return token;
 };

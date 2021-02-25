@@ -4,3 +4,9 @@ export const WILAYAH_ACTIONS = {
     GET_KECAMATAN : 'GET_KECAMATAN',
     GET_KELURAHAN : 'GET_KELURAHAN',
 }
+
+export const OPTION_MENU_ACTIONS = {
+    PROFILE : 'PROFILE',
+    PETANI : 'PETANI',
+    LAHAN : 'LAHAN',
+}

@@ -18,6 +18,7 @@ import DataMap from "./../../Static/Data/dataCoba.json";
 import PictMarker from "../../Images/marker.png";
 import dataGeoJSON from "../../Static/Data/dataGeoJson.json";
 import provinceLampung from "../../Static/Data/indonesia-province.json";
+import { connect } from "react-redux";
 
 const geoJsonStyle = {
   fillColor: "crimson",
@@ -43,7 +44,7 @@ function FlyingTo({ props }) {
 }
 var color = ["#80ff80", "#4dff4d", "#1aff1a", "#00e600", "#00b300"];
 
-export default function Maps(props) {
+function Maps(props) {
   const [dataMap, setDataMap] = useState(null);
   useEffect(() => {
     setDataMap(props.data);
@@ -59,10 +60,10 @@ export default function Maps(props) {
     layer.bindTooltip(provinsi + " " + provinsi.length);
 
     layer.on({
-      click:()=>{
-        console.log(polygon)
-      }
-    })
+      click: () => {
+        console.log(polygon);
+      },
+    });
   };
   return (
     <MapContainer
@@ -72,12 +73,11 @@ export default function Maps(props) {
       scrollWheelZoom={true}
       zoomControl={false}
     >
-      <ZoomControl position="bottomright" />
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <LayersControl>
+      <LayersControl position="bottomright">
         <LayersControl.Overlay name="Marker">
           <LayerGroup>
             {DataMap &&
@@ -125,6 +125,9 @@ export default function Maps(props) {
           />
         </LayersControl.BaseLayer>
       </LayersControl>
+
+      <ZoomControl position="bottomleft" />
     </MapContainer>
   );
 }
+export default connect()(Maps);
