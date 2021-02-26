@@ -21,29 +21,52 @@ export const getWilayah = () => {
   };
 };
 
-export const getKabupaten = (id_provinsi = false) => {
+export const getKabupaten = (id_provinsi = null) => {
   return (dispatch) => {
-    var data = JSON.stringify({
-      filter: { provinsi: "18" },
-      order: { order_by: "id", sort: "ASC", page: 1, limit_page: 100 },
-    });
-
     var config = {
       method: "get",
-      url: BaseUrl + "wilayah/kabupatenkota",
+      url: BaseUrl + `wilayah/kabupatenkota?provinsi=${id_provinsi}`,
       headers: {
         "APP-KEY": APP_KEY,
         "Content-Type": "application/json",
       },
-      data: data,
+    };
+
+    axios
+      .request(config)
+      .then(function (response) {
+        console.log(id_provinsi);
+        dispatch({
+          type: WILAYAH_ACTIONS.GET_KABUPATEN,
+          payload: {
+            data: response.data.data,
+          },
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+};
+
+export const getKecamatan = (id_provinsi = null, id_kabupaten = null) => {
+  return (dispatch) => {
+    var config = {
+      method: "get",
+      url:
+        BaseUrl +
+        `wilayah/kecamatan?provinsi=${id_provinsi}&kabupatenkota=${id_kabupaten}`,
+      headers: {
+        "APP-KEY": APP_KEY,
+        "Content-Type": "application/json",
+      },
     };
 
     id_provinsi &&
       axios(config)
         .then(function (response) {
-          console.log(id_provinsi);
           dispatch({
-            type: WILAYAH_ACTIONS.GET_KABUPATEN,
+            type: WILAYAH_ACTIONS.GET_KECAMATAN,
             payload: {
               data: response.data.data,
             },
@@ -55,36 +78,31 @@ export const getKabupaten = (id_provinsi = false) => {
   };
 };
 
-export const getKecamatan = (id_provinsi = false, id_kabupaten = false) => {
+export const getKelurahan = (
+  id_provinsi = null,
+  id_kabupaten = null,
+  id_kecamatan = null
+) => {
   return (dispatch) => {
-    var data = JSON.stringify({
-      filter: { provinsi: id_provinsi, kabupatenkota: id_kabupaten },
-      order: { order_by: "id", sort: "ASC", page: 1, limit_page: 100 },
-    });
-
-    var config = {
-      method: "get",
-      url: BaseUrl + "wilayah/kecamatan",
-      headers: {
-        "APP-KEY": APP_KEY,
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    id_provinsi &&
-      axios(config)
-        .then(function (response) {
-          console.log(response.data.data);
-          dispatch({
-            type: WILAYAH_ACTIONS.GET_KECAMATAN,
-            payload: {
-              data: response.data.data,
-            },
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
+      axios({
+        method: "get",
+        url:
+          BaseUrl +
+          `wilayah/kelurahan?provinsi=${id_provinsi}&kabupatenkota=${id_kabupaten}&kecamatan=${id_kecamatan}`,
+        headers: {
+          "APP-KEY": APP_KEY,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.data)
+        dispatch({
+          type: WILAYAH_ACTIONS.GET_KELURAHAN,
+          payload: {
+            data: res.data.data,
+          },
         });
+      })
+      .catch((err) => console.log(err));
   };
 };

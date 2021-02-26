@@ -4,7 +4,7 @@ const regionState = {
     dataProvinsi:null,
     dataKabupaten:null,
     dataKecamatan:null,
-    dataKelurahaan:null,
+    dataKelurahan:null,
     title:'Region State Management'
 };
 
@@ -26,7 +26,10 @@ const wilayah = (state = regionState, action) => {
         dataKecamatan:action.payload.data
       }
     case WILAYAH_ACTIONS.GET_KELURAHAN:
-      console.log("kelurahan action");
+      return {
+        ...state,
+        dataKelurahan:action.payload.data
+      }
     default:
       return state;
   }

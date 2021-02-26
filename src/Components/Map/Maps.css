@@ -6,3 +6,12 @@
     left: 0;
     bottom: 0;
 }
+.Search-Bar{
+    position: absolute;
+    z-index: 20;
+}
+@media only screen and (max-width:400px){
+    .Map{
+        height: 90vh;
+    }
+} 

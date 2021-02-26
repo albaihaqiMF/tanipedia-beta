@@ -5,6 +5,7 @@ import { getLahan, getProfile } from "../../Redux/Action/OptionMenuActions";
 import {
   getKabupaten,
   getKecamatan,
+  getKelurahan,
   getWilayah,
 } from "../../Redux/Action/WilayahAction";
 import MyLoader from "../Loader";
@@ -31,6 +32,8 @@ class MenuBar extends Component {
     const provinsi = this.props.provinsi;
     const kabupaten = this.props.kabupaten;
     const kecamatan = this.props.kecamatan;
+    const kelurahan = this.props.kelurahan;
+    console.log(this.state);
     return (
       <>
         <div className="Navbar">
@@ -39,9 +42,10 @@ class MenuBar extends Component {
               type="select"
               onChange={(e) => {
                 e.preventDefault();
-                this.setState({ id_provinsi: e.target.value });
+                this.setState({ id_provinsi: e.target.value, id_kabupaten:0, id_kecamatan:0, id_kelurahan:0 });
                 this.props.dispatch(getKabupaten(e.target.value));
               }}
+              disabled={provinsi == null ? true : false}
             >
               <option value="0">Provinsi</option>
               {provinsi &&
@@ -55,10 +59,12 @@ class MenuBar extends Component {
             </Input>
             <Input
               type="select"
-              disabled={this.state.id_provinsi == 0 ? true : false}
+              disabled={
+                this.state.id_provinsi == 0 || kabupaten == null ? true : false
+              }
               onChange={(e) => {
                 e.preventDefault();
-                this.setState({ id_kabupaten: e.target.value });
+                this.setState({id_kabupaten: e.target.value, id_kecamatan:0, id_kelurahan:0 });
                 this.props.dispatch(
                   getKecamatan(this.state.id_provinsi, e.target.value)
                 );
@@ -76,13 +82,46 @@ class MenuBar extends Component {
             </Input>
             <Input
               type="select"
-              disabled={this.state.id_kabupaten == 0 ? true : false}
+              disabled={
+                this.state.id_kabupaten == 0 || kecamatan == null ? true : false
+              }
+              onChange={(e) => {
+                e.preventDefault();
+                this.setState({ id_kecamatan: e.target.value, id_kelurahan:0 });
+                this.props.dispatch(
+                  getKelurahan(
+                    this.state.id_provinsi,
+                    this.state.id_kabupaten,
+                    e.target.value
+                  )
+                );
+              }}
             >
               <option value="0">Kecamatan</option>
               {kecamatan !== null &&
                 kecamatan.map((items) => {
                   return (
-                    <option key={items.id} value={items.kabupatenkota}>
+                    <option key={items.id} value={items.kecamatan}>
+                      {items.nama}
+                    </option>
+                  );
+                })}
+            </Input>
+            <Input
+              type="select"
+              disabled={
+                this.state.id_kecamatan == 0 || kelurahan == null ? true : false
+              }
+              onChange={(e) => {
+                e.preventDefault();
+                this.setState({id_kelurahan:e.target.value });
+              }}
+            >
+              <option value="0">Kelurahan</option>
+              {kelurahan &&
+                kelurahan.map((items) => {
+                  return (
+                    <option key={items.id} value={items.kelurahan}>
                       {items.nama}
                     </option>
                   );
@@ -91,12 +130,13 @@ class MenuBar extends Component {
           </InputGroup>
           <OptionButton />
         </div>
-        {this.props.petani ? <Maps/> : <MyLoader/>}
+        {this.props.petani ? <Maps /> : <MyLoader />}
       </>
     );
   }
 }
 function mapStateToProps(state) {
+  console.log(state.wilayah.dataKelurahan)
   return {
     provinsi: state.wilayah.dataProvinsi,
     kabupaten: state.wilayah.dataKabupaten,

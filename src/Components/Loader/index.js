@@ -11,7 +11,7 @@ const myClasses = {
 export default function MyLoader() {
     return (
         <div style={myClasses}>
-            <Spinner color="successs" />
+            <Spinner color="success" />
         </div>
     )
 }

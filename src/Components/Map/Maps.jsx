@@ -18,9 +18,11 @@ import DataMap from "./../../Static/Data/dataCoba.json";
 import PictMarker from "../../Images/tanipedia-marker.png";
 import Corn from "../../Images/corn.png";
 import Rice from "../../Images/rice.png";
-import dataGeoJSON from "../../Static/Data/dataGeoJson.json";
-import provinceLampung from "../../Static/Data/indonesia-province.json";
+// import indonesia from "../../Static/Data/indonesia.json";
+import provinsi from "../../Static/Data/provinsi.json";
+// import kabupaten from "../../Static/Data/kabupatenkota.json";
 import { connect } from "react-redux";
+import { Input } from "reactstrap";
 
 const geoJsonStyle = {
   fillColor: "crimson",
@@ -78,19 +80,16 @@ function Maps(props) {
   // console.log(props.petani, "petani");
 
   const MapsEachFeatures = (items, layer) => {
-    const provinsi = items.properties.Propinsi;
-    const map = useMap();
-
-    var length = 256 - provinsi.length;
+    const name = items.properties.NAME_1;
+    var length = 236 - (name.length*5);
     layer.options.fillColor = `rgb(0,${length},0)`;
-    layer.bindTooltip(provinsi + " " + provinsi.length);
-
+    layer.bindTooltip(name + " " + name.length);
     layer.on({
-      click: (e) => {
-        console.log(e.latlng + " is clicked");
+      click: () => {
+        console.log(items.properties + " is clicked");
       },
     });
-  };
+  }
 
   function getMarker(kategori) {
     switch (kategori) {
@@ -153,7 +152,9 @@ function Maps(props) {
                       position={items.coordinate}
                       icon={getMarker(items.kategori)}
                     >
-                      {items.kategori === null ? null : <Tooltip>{items.kategori}</Tooltip>}
+                      {items.kategori === null ? null : (
+                        <Tooltip>{items.kategori}</Tooltip>
+                      )}
                     </Marker>
                   );
                 })}
@@ -175,10 +176,13 @@ function Maps(props) {
               })}
           </LayerGroup>
         </LayersControl.BaseLayer> */}
-        <LayersControl.BaseLayer checked={props.clicked == 2 ? true : false} name="GeoJSON">
+        <LayersControl.BaseLayer
+          checked={props.clicked == 2 ? true : false}
+          name="GeoJSON"
+        >
           <GeoJSON
             style={geoJsonStyle}
-            data={provinceLampung}
+            data={provinsi}
             onEachFeature={MapsEachFeatures}
           />
         </LayersControl.BaseLayer>
