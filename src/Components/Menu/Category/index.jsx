@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { ButtonGroup } from "reactstrap";
+import { optionSelected } from "../../../Redux/Action/OptionMenuActions";
 
 function OptionButton(props) {
   const [buttonActived, setButtonActived] = useState({
     activedButton: 0,
     object: [
-      { id: 0, option: "PROFILE" },
-      { id: 1, option: "PETANI" },
-      { id: 2, option: "LAHAN" },
+      { id: 0, option: "PETANI" },
+      { id: 1, option: "LAHAN" },
+      { id: 2, option: "PANEN" },
     ],
   });
 
@@ -25,7 +26,6 @@ function OptionButton(props) {
       return "btn-option inactive";
     }
   }
-  console.log(props.profile, "profile");
   return (
     <div className="Option-Button">
       <ButtonGroup>
@@ -36,6 +36,7 @@ function OptionButton(props) {
               key={items.id}
               onClick={() => {
                 activeButton(items.id);
+                props.dispatch(optionSelected(items.id))
               }}
             >
               {items.option}
@@ -48,9 +49,9 @@ function OptionButton(props) {
 }
 function propsReducer(state) {
   return {
-    profile: state.optionMenu.profile,
     petani: state.optionMenu.petani,
     lahan: state.optionMenu.lahan,
+    panen: state.optionMenu.panen,
   };
 }
 

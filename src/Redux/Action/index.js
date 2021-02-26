@@ -6,7 +6,8 @@ export const WILAYAH_ACTIONS = {
 }
 
 export const OPTION_MENU_ACTIONS = {
-    PROFILE : 'PROFILE',
     PETANI : 'PETANI',
     LAHAN : 'LAHAN',
+    PANEN : 'PANEN',
+    DATA_SELECTED : 'DATA_SELECTED',
 }

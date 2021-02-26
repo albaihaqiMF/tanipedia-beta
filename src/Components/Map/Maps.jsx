@@ -15,7 +15,9 @@ import L, { geoJSON } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Maps.css";
 import DataMap from "./../../Static/Data/dataCoba.json";
-import PictMarker from "../../Images/marker.png";
+import PictMarker from "../../Images/tanipedia-marker.png";
+import Corn from "../../Images/corn.png";
+import Rice from "../../Images/rice.png";
 import dataGeoJSON from "../../Static/Data/dataGeoJson.json";
 import provinceLampung from "../../Static/Data/indonesia-province.json";
 import { connect } from "react-redux";
@@ -29,8 +31,18 @@ const geoJsonStyle = {
 
 const myMarker = new L.icon({
   iconUrl: PictMarker,
+  iconSize: [24, 24],
+  iconAnchor: [12, 24],
+});
+const CornMarker = new L.icon({
+  iconUrl: Corn,
   iconSize: [30, 30],
   iconAnchor: [15, 30],
+});
+const RiceMarker = new L.icon({
+  iconUrl: Rice,
+  iconSize: [24, 24],
+  iconAnchor: [12, 24],
 });
 
 function FlyingTo({ props }) {
@@ -46,25 +58,52 @@ var color = ["#80ff80", "#4dff4d", "#1aff1a", "#00e600", "#00b300"];
 
 function Maps(props) {
   const [dataMap, setDataMap] = useState(null);
+  const [dataTabs, setdataTabs] = useState(props.petani);
   useEffect(() => {
-    setDataMap(props.data);
-  }, [props.data]);
+    switch (props.clicked) {
+      case 0:
+        setdataTabs(props.petani);
+        break;
+      case 1:
+        setdataTabs(props.lahan);
+        break;
+      case 2:
+        setdataTabs(props.panen);
+        break;
+      default:
+        break;
+    }
+  }, [props.clicked]);
+
+  // console.log(props.petani, "petani");
 
   const MapsEachFeatures = (items, layer) => {
     const provinsi = items.properties.Propinsi;
     const map = useMap();
-    const polygon = items.geometry.coordinates;
 
     var length = 256 - provinsi.length;
     layer.options.fillColor = `rgb(0,${length},0)`;
     layer.bindTooltip(provinsi + " " + provinsi.length);
 
     layer.on({
-      click: () => {
-        console.log(polygon);
+      click: (e) => {
+        console.log(e.latlng + " is clicked");
       },
     });
   };
+
+  function getMarker(kategori) {
+    switch (kategori) {
+      case "Padi":
+        return RiceMarker;
+        break;
+      case "Jagung":
+        return CornMarker;
+      default:
+        return myMarker;
+        break;
+    }
+  }
   return (
     <MapContainer
       className="Map"
@@ -103,7 +142,26 @@ function Maps(props) {
             {/* <Polygon positions={DataMap[2].polygon}/> */}
           </LayerGroup>
         </LayersControl.Overlay>
-        <LayersControl.BaseLayer name="Filter">
+        <LayersControl.BaseLayer checked={true} name="Option">
+          <LayerGroup>
+            {dataTabs === null
+              ? null
+              : dataTabs.map((items, i) => {
+                  return items.latitude === null ? null : (
+                    <Marker
+                      key={i}
+                      position={items.coordinate}
+                      icon={getMarker(items.kategori)}
+                    >
+                      {items.kategori === null ? null : <Tooltip>{items.kategori}</Tooltip>}
+                    </Marker>
+                  );
+                })}
+          </LayerGroup>
+        </LayersControl.BaseLayer>
+
+        {/* LayerBasic Start */}
+        {/* <LayersControl.BaseLayer checked name="Filter">
           <LayerGroup>
             {dataMap &&
               dataMap.map((item, id) => {
@@ -116,8 +174,8 @@ function Maps(props) {
                 );
               })}
           </LayerGroup>
-        </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer checked name="GeoJSON">
+        </LayersControl.BaseLayer> */}
+        <LayersControl.BaseLayer checked={props.clicked == 2 ? true : false} name="GeoJSON">
           <GeoJSON
             style={geoJsonStyle}
             data={provinceLampung}
@@ -125,9 +183,19 @@ function Maps(props) {
           />
         </LayersControl.BaseLayer>
       </LayersControl>
+      {/* LayerBasic End */}
 
       <ZoomControl position="bottomleft" />
     </MapContainer>
   );
 }
-export default connect()(Maps);
+function stateToProps(state) {
+  // console.log(state.optionMenu);
+  return {
+    petani: state.optionMenu.petani,
+    lahan: state.optionMenu.lahan,
+    panen: state.optionMenu.panen,
+    clicked: state.optionMenu.clicked,
+  };
+}
+export default connect(stateToProps)(Maps);

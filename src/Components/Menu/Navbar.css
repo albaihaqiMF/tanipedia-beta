@@ -6,7 +6,7 @@
 }
 
 .Navbar {
-    background-color: darkgreen;
+    background:linear-gradient(to top right, #339966 50%, darkgreen);
     position: absolute;
     z-index: 10;
     width: 100%;

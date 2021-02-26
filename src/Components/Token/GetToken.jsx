@@ -21,11 +21,12 @@ export const GetToken = () => {
     axios(config)
       .then(function (response) {
         localStorage.setItem('API',response.data.data.api_token)
+        console.log(response.data.data.api_token)
       })
       .catch(function (error) {
         console.log(error);
       });
-  },[data]);
+  },[]);
   const token = localStorage.getItem('API')
   return token;
 };

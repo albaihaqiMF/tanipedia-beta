@@ -1,23 +1,33 @@
 import { OPTION_MENU_ACTIONS } from "../Action";
 
 const optionState = {
-    profile:null,
     petani:null,
     lahan:null,
+    panen:null,
+    clicked:0,
     title:'Option State Management'
 }
 
 const optionMenu = (state = optionState, action) => {
     switch (action.type) {
-      case OPTION_MENU_ACTIONS.PROFILE:
+      case OPTION_MENU_ACTIONS.PETANI:
         return {
             ...state,
-            profile:action.payload.data
+            petani:action.payload.data
         }
-      case OPTION_MENU_ACTIONS.PETANI:
-        console.log(OPTION_MENU_ACTIONS.PETANI)
       case OPTION_MENU_ACTIONS.LAHAN:
+        return {
+          ...state,
+          lahan:action.payload.data
+      }
+      case OPTION_MENU_ACTIONS.PANEN:
         console.log(OPTION_MENU_ACTIONS.LAHAN)
+
+      case OPTION_MENU_ACTIONS.DATA_SELECTED:
+        return {
+          ...state,
+          clicked:action.payload.data
+        }
       default:
         return state;
     }
