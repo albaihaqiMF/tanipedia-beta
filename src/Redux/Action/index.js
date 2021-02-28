@@ -10,4 +10,5 @@ export const OPTION_MENU_ACTIONS = {
     LAHAN : 'LAHAN',
     PANEN : 'PANEN',
     DATA_SELECTED : 'DATA_SELECTED',
+    CARD : 'FOR_CARD',
 }

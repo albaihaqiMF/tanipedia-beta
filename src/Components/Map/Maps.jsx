@@ -10,6 +10,7 @@ import {
   useMap,
   ZoomControl,
   GeoJSON,
+  useMapEvents,
 } from "react-leaflet";
 import L, { geoJSON } from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -18,11 +19,9 @@ import DataMap from "./../../Static/Data/dataCoba.json";
 import PictMarker from "../../Images/tanipedia-marker.png";
 import Corn from "../../Images/corn.png";
 import Rice from "../../Images/rice.png";
-// import indonesia from "../../Static/Data/indonesia.json";
 import provinsi from "../../Static/Data/provinsi.json";
-// import kabupaten from "../../Static/Data/kabupatenkota.json";
 import { connect } from "react-redux";
-import { Input } from "reactstrap";
+import { dataOnCard } from "../../Redux/Action/OptionMenuActions";
 
 const geoJsonStyle = {
   fillColor: "crimson",
@@ -47,15 +46,6 @@ const RiceMarker = new L.icon({
   iconAnchor: [12, 24],
 });
 
-function FlyingTo({ props }) {
-  const map = useMap();
-
-  useEffect(() => {
-    props && props === null ? map.flyTo([0, 0], 2) : map.flyTo(props, 13);
-  }, [props]);
-  console.log("flying");
-  return null;
-}
 var color = ["#80ff80", "#4dff4d", "#1aff1a", "#00e600", "#00b300"];
 
 function Maps(props) {
@@ -78,18 +68,19 @@ function Maps(props) {
   }, [props.clicked]);
 
   // console.log(props.petani, "petani");
+  const [map, setMap] = useState(null)
 
   const MapsEachFeatures = (items, layer) => {
     const name = items.properties.NAME_1;
-    var length = 236 - (name.length*5);
+    var length = 236 - name.length * 5;
     layer.options.fillColor = `rgb(0,${length},0)`;
     layer.bindTooltip(name + " " + name.length);
     layer.on({
-      click: () => {
-        console.log(items.properties + " is clicked");
+      click: (e) => {
+        map.flyTo(e.latlng, 5)
       },
     });
-  }
+  };
 
   function getMarker(kategori) {
     switch (kategori) {
@@ -110,37 +101,14 @@ function Maps(props) {
       zoom={5.3}
       scrollWheelZoom={true}
       zoomControl={false}
+      whenCreated={setMap}
     >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <LayersControl position="bottomright">
-        <LayersControl.Overlay name="Marker">
-          <LayerGroup>
-            {DataMap &&
-              DataMap.map((items, i) => {
-                return (
-                  <Marker key={i} position={items.center} icon={myMarker}>
-                    <Tooltip>{items.location}</Tooltip>
-                  </Marker>
-                );
-              })}
-          </LayerGroup>
-        </LayersControl.Overlay>
-        <LayersControl.Overlay name="Polygon">
-          <LayerGroup>
-            {DataMap &&
-              DataMap.map((items, i) => {
-                return (
-                  <Polygon key={i} positions={items.polygon}>
-                    <Tooltip>{items.location}</Tooltip>
-                  </Polygon>
-                );
-              })}
-            {/* <Polygon positions={DataMap[2].polygon}/> */}
-          </LayerGroup>
-        </LayersControl.Overlay>
+        {/* LayerBasic Start */}
         <LayersControl.BaseLayer checked={true} name="Option">
           <LayerGroup>
             {dataTabs === null
@@ -151,6 +119,12 @@ function Maps(props) {
                       key={i}
                       position={items.coordinate}
                       icon={getMarker(items.kategori)}
+                      eventHandlers={{
+                        click: (e) => {
+                          props.dispatch(dataOnCard(items, true));
+                          map.flyTo(e.latlng, 13);
+                        },
+                      }}
                     >
                       {items.kategori === null ? null : (
                         <Tooltip>{items.kategori}</Tooltip>
@@ -160,22 +134,6 @@ function Maps(props) {
                 })}
           </LayerGroup>
         </LayersControl.BaseLayer>
-
-        {/* LayerBasic Start */}
-        {/* <LayersControl.BaseLayer checked name="Filter">
-          <LayerGroup>
-            {dataMap &&
-              dataMap.map((item, id) => {
-                return (
-                  <Marker
-                    key={id}
-                    position={item.center}
-                    icon={myMarker}
-                  ></Marker>
-                );
-              })}
-          </LayerGroup>
-        </LayersControl.BaseLayer> */}
         <LayersControl.BaseLayer
           checked={props.clicked == 2 ? true : false}
           name="GeoJSON"

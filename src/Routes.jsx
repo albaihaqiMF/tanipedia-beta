@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import MenuBar from './Components/Menu/Navbar'
+import Welcome from './Pages/Welcome'
 
 export default function Routes() {
     return (
@@ -8,7 +8,7 @@ export default function Routes() {
         <BrowserRouter>
             <Switch>
                 <Route exact path="/">
-                    <MenuBar/>
+                    <Welcome/>
                 </Route>
             </Switch>
         </BrowserRouter>

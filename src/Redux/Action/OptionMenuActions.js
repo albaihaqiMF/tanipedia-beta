@@ -1,7 +1,6 @@
 import axios from "axios";
 import { OPTION_MENU_ACTIONS } from ".";
 import { APP_KEY, BaseUrl } from "../../Components/API";
-import { GetToken } from "../../Components/Token/GetToken";
 
 const token = localStorage.getItem("token");
 
@@ -35,6 +34,7 @@ export const getLahan = () => {
         "APP-KEY": APP_KEY,
       },
     }).then((res) => {
+      console.log(res.data.data)
       dispatch({
         type: OPTION_MENU_ACTIONS.LAHAN,
         payload: {
@@ -45,13 +45,26 @@ export const getLahan = () => {
   };
 };
 
-export const optionSelected = (id) =>{
-    return (dispatch) => {
-        dispatch({
-            type:OPTION_MENU_ACTIONS.DATA_SELECTED,
-            payload:{
-                data:id
-            }
-        })
-    }
-}
+export const optionSelected = (id, Opencard) => {
+  return (dispatch) => {
+    dispatch({
+      type: OPTION_MENU_ACTIONS.DATA_SELECTED,
+      payload: {
+        data: id,
+        cardOpen:Opencard,
+      },
+    });
+  };
+};
+
+export const dataOnCard = (data) => {
+  return (dispatch) => {
+    dispatch({
+      type: OPTION_MENU_ACTIONS.CARD,
+      payload: {
+        data: data,
+        cardOpen: true,
+      },
+    });
+  };
+};

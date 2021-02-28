@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Routes from './Routes';
 import { useEffect } from 'react';
@@ -19,8 +18,8 @@ function App() {
       }
     }).then(res=>{
       localStorage.setItem('token',res.data.data.api_token)
-    })
-  },[])
+    }).catch(err=>console.log(err))
+  },[BaseUrl])
   return (
     <Routes/>
   );

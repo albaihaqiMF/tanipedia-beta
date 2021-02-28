@@ -10,10 +10,18 @@
     position: absolute;
     z-index: 10;
     width: 100%;
-    height: auto;
+    height: 100px;
     padding: 10px;
     padding-bottom: 0;
 
+}
+.Wilayah{
+    position: absolute;
+    transform: translate(2%,100px);
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+    width: 50vw;
 }
 
 .map-container {
@@ -24,6 +32,7 @@
 .Option-Button {
     height: 100%;
     position: relative;
+    bottom: 0;
     z-index: 20;
 }
 
@@ -50,4 +59,8 @@
 .btn-option.active {
     background-color: white;
     color: #0DC340;
+}
+
+.Search{
+    float: right;
 }
