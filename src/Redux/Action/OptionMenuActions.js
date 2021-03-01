@@ -6,7 +6,7 @@ const token = localStorage.getItem("token");
 
 export const getProfile = () => {
   return (dispatch) => {
-    axios({
+    token && axios({
       method: "GET",
       url: BaseUrl + "profil",
       headers: {
@@ -26,7 +26,7 @@ export const getProfile = () => {
 
 export const getLahan = () => {
   return (dispatch) => {
-    axios({
+    token && axios({
       method: "GET",
       url: BaseUrl + "lahan",
       headers: {

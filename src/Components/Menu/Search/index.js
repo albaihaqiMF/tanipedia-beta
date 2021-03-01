@@ -5,13 +5,15 @@ import { Input } from 'reactstrap'
 function MySearch() {
     return (
         <div className="Search">
-            <Input type="text" disabled={false} placeholder="Search"/>
+            <input type="search" className="form-control"/>
         </div>
     )
 }
 function StateToProps(state) {
     console.log(state)
-    return;
+    return{
+        search:null
+    }
 }
 
 export default connect(StateToProps)(MySearch);

@@ -35,18 +35,14 @@ const myMarker = new L.icon({
   iconSize: [24, 24],
   iconAnchor: [12, 24],
 });
-const CornMarker = new L.icon({
-  iconUrl: Corn,
-  iconSize: [30, 30],
-  iconAnchor: [15, 30],
-});
-const RiceMarker = new L.icon({
-  iconUrl: Rice,
-  iconSize: [24, 24],
-  iconAnchor: [12, 24],
-});
-
-var color = ["#80ff80", "#4dff4d", "#1aff1a", "#00e600", "#00b300"];
+const CornMarker = new L.divIcon({
+  className:'DivIcon',
+  html:`<img src=${Corn} height="30px"/>`+'<span>Jagung</span>'
+})
+const RiceMarker = new L.divIcon({
+  className:'DivIcon',
+  html:`<img src=${Rice} height="30px"/>`+'<span>Padi</span>'
+})
 
 function Maps(props) {
   const [dataMap, setDataMap] = useState(null);
@@ -77,7 +73,6 @@ function Maps(props) {
     layer.bindTooltip(name + " " + name.length);
     layer.on({
       click: (e) => {
-        map.flyTo(e.latlng, 5)
       },
     });
   };
@@ -119,6 +114,7 @@ function Maps(props) {
                       key={i}
                       position={items.coordinate}
                       icon={getMarker(items.kategori)}
+                      divIcon
                       eventHandlers={{
                         click: (e) => {
                           props.dispatch(dataOnCard(items, true));
@@ -126,9 +122,9 @@ function Maps(props) {
                         },
                       }}
                     >
-                      {items.kategori === null ? null : (
+                      {/* {items.kategori === null ? null : (
                         <Tooltip>{items.kategori}</Tooltip>
-                      )}
+                      )} */}
                     </Marker>
                   );
                 })}
@@ -147,7 +143,7 @@ function Maps(props) {
       </LayersControl>
       {/* LayerBasic End */}
 
-      <ZoomControl position="bottomleft" />
+      <ZoomControl position="bottomright" />
     </MapContainer>
   );
 }

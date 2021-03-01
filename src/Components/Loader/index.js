@@ -3,7 +3,6 @@ import { Spinner } from 'reactstrap'
 
 const myClasses = {
     background:'transparent',
-    position:'absolute',
     left:'0',
     top:'0',
     zIndex:'20',

@@ -8,17 +8,21 @@ import Navbar from "../../Components/Menu/Navbar";
 function Welcome(props) {
   return (
     <>
-      <Navbar />
+      {localStorage && (
+        <>
+          <Navbar />
 
-      <CardMaps />
-      <Maps />
-      {props.petani ? null : <MyLoader />}
+          <CardMaps />
+          <Maps />
+          {props.petani ? null : <MyLoader />}
+        </>
+      )}
     </>
   );
 }
 
 function mapStatetoProps(state) {
-  console.log(state.optionMenu.lahan);
+  console.log(state.optionMenu);
   return {
     petani: state.optionMenu.petani,
   };

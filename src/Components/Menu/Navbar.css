@@ -23,6 +23,9 @@
     margin: 15px;
     width: 50vw;
 }
+.Wilayah .input-wilayah{
+    margin: 0 10px;
+}
 
 .map-container {
     position: relative;
@@ -63,4 +66,21 @@
 
 .Search{
     float: right;
+}
+@media only screen and (max-width:500px){
+    .Search{
+        width: 100%;
+        float: none;
+
+    }
+    .Wilayah{
+        display: none;
+        /* flex-direction: column; */
+        transform: translateY(200%);
+        width: auto;
+    }
+    .Wilayah .input-wilayah{
+        margin: 0 1px;
+        box-shadow: 2px 2px 2px #0CC23F;
+    }
 }

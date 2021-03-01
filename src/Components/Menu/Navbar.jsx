@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Input, InputGroup } from "reactstrap";
-import { getLahan, getProfile } from "../../Redux/Action/OptionMenuActions";
 import {
   getKabupaten,
   getKecamatan,
   getKelurahan,
   getWilayah,
 } from "../../Redux/Action/WilayahAction";
-import MyLoader from "../Loader";
-import Maps from "../Map/Maps";
 import OptionButton from "./Category";
 import MySearch from "./Search";
 import "./Navbar.css";
@@ -26,8 +23,6 @@ class MenuBar extends Component {
   }
   componentDidMount() {
     this.props.dispatch(getWilayah());
-    this.props.dispatch(getProfile());
-    this.props.dispatch(getLahan());
   }
   render() {
     const provinsi = this.props.provinsi;
@@ -38,9 +33,10 @@ class MenuBar extends Component {
     return (
       <>
         <div className="Navbar">
-          <MySearch />
+          {/* <MySearch /> */}
           <div className="Wilayah">
             <Input
+              className="input-wilayah"
               type="select"
               onChange={(e) => {
                 e.preventDefault();
@@ -65,6 +61,7 @@ class MenuBar extends Component {
                 })}
             </Input>
             <Input
+              className="input-wilayah"
               type="select"
               disabled={
                 this.state.id_provinsi == 0 || kabupaten == null ? true : false
@@ -92,6 +89,7 @@ class MenuBar extends Component {
                 })}
             </Input>
             <Input
+              className="input-wilayah"
               type="select"
               disabled={
                 this.state.id_kabupaten == 0 || kecamatan == null ? true : false
@@ -122,6 +120,7 @@ class MenuBar extends Component {
                 })}
             </Input>
             <Input
+              className="input-wilayah"
               type="select"
               disabled={
                 this.state.id_kecamatan == 0 || kelurahan == null ? true : false

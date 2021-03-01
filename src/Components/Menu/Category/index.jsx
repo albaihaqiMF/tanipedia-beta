@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { ButtonGroup } from "reactstrap";
-import { optionSelected } from "../../../Redux/Action/OptionMenuActions";
+import { getLahan, getProfile, optionSelected } from "../../../Redux/Action/OptionMenuActions";
 
 function OptionButton(props) {
   const [buttonActived, setButtonActived] = useState({
@@ -12,6 +12,10 @@ function OptionButton(props) {
       { id: 2, option: "PANEN" },
     ],
   });
+  useEffect(() => {
+    props.dispatch(getProfile());
+    props.dispatch(getLahan());
+  }, [localStorage]);
 
   function activeButton(index) {
     setButtonActived({
@@ -36,7 +40,7 @@ function OptionButton(props) {
               key={items.id}
               onClick={() => {
                 activeButton(items.id);
-                props.dispatch(optionSelected(items.id))
+                props.dispatch(optionSelected(items.id));
               }}
             >
               {items.option}
