@@ -2,13 +2,13 @@ import axios from "axios";
 import { OPTION_MENU_ACTIONS } from ".";
 import { APP_KEY, BaseUrl } from "../../Components/API";
 
-const token = localStorage.getItem("token");
+// const token = localStorage.getItem("token");
 
-export const getProfile = () => {
+export const getProfile = (token) => {
   return (dispatch) => {
-    token && axios({
+    axios({
       method: "GET",
-      url: BaseUrl + "profil",
+      url: BaseUrl + "profil?order_by=latitude&sort=ASC&limit_page=15",
       headers: {
         Authorization: `Gradien ${token}`,
         "APP-KEY": APP_KEY,
@@ -20,13 +20,15 @@ export const getProfile = () => {
           data: res.data.data,
         },
       });
+    }).catch(err=>{
+      console.log(err)
     });
   };
 };
 
-export const getLahan = () => {
+export const getLahan = (token) => {
   return (dispatch) => {
-    token && axios({
+    axios({
       method: "GET",
       url: BaseUrl + "lahan",
       headers: {
@@ -34,7 +36,6 @@ export const getLahan = () => {
         "APP-KEY": APP_KEY,
       },
     }).then((res) => {
-      console.log(res.data.data)
       dispatch({
         type: OPTION_MENU_ACTIONS.LAHAN,
         payload: {
@@ -51,7 +52,7 @@ export const optionSelected = (id, Opencard) => {
       type: OPTION_MENU_ACTIONS.DATA_SELECTED,
       payload: {
         data: id,
-        cardOpen:Opencard,
+        cardOpen: Opencard,
       },
     });
   };
@@ -64,6 +65,17 @@ export const dataOnCard = (data) => {
       payload: {
         data: data,
         cardOpen: true,
+      },
+    });
+  };
+};
+
+export const id_filter = (data) => {
+  return (dispatch) => {
+    dispatch({
+      type: OPTION_MENU_ACTIONS.ID_FILTER,
+      payload: {
+        data: data
       },
     });
   };

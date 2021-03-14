@@ -11,4 +11,5 @@ export const OPTION_MENU_ACTIONS = {
     PANEN : 'PANEN',
     DATA_SELECTED : 'DATA_SELECTED',
     CARD : 'FOR_CARD',
+    ID_FILTER : 'ID_FILTER',
 }

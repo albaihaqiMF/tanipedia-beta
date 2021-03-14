@@ -5,8 +5,9 @@ const optionState = {
   lahan: null,
   panen: null,
   dataOnCard: null,
-  isCardOpen:false,
+  isCardOpen: false,
   clicked: 0,
+  id_filter: 0,
   title: "Option State Management",
 };
 
@@ -30,6 +31,12 @@ const optionMenu = (state = optionState, action) => {
         ...state,
         clicked: action.payload.data,
         isCardOpen: action.payload.cardOpen,
+      };
+    case OPTION_MENU_ACTIONS.ID_FILTER:
+      return {
+        ...state,
+        id_filter: action.payload.data,
+        isCardOpen: false
       };
     case OPTION_MENU_ACTIONS.CARD:
       return {

@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap');
+p#tanipedia{
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 30px;
+    padding: 6px 0 5px 10px;
+    color: white;
+    margin: 0;
+}

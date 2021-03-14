@@ -10,7 +10,6 @@ function MySearch() {
     )
 }
 function StateToProps(state) {
-    console.log(state)
     return{
         search:null
     }

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { ButtonGroup } from "reactstrap";
-import { getLahan, getProfile, optionSelected } from "../../../Redux/Action/OptionMenuActions";
+import { Col, Row } from "reactstrap";
+import { dataOnCard, optionSelected } from "../../../Redux/Action/OptionMenuActions";
 
 function OptionButton(props) {
   const [buttonActived, setButtonActived] = useState({
@@ -12,10 +12,6 @@ function OptionButton(props) {
       { id: 2, option: "PANEN" },
     ],
   });
-  useEffect(() => {
-    props.dispatch(getProfile());
-    props.dispatch(getLahan());
-  }, [localStorage]);
 
   function activeButton(index) {
     setButtonActived({
@@ -31,24 +27,25 @@ function OptionButton(props) {
     }
   }
   return (
-    <div className="Option-Button">
-      <ButtonGroup>
-        {buttonActived.object.map((items) => {
-          return (
+    <Row className="Option-Button">
+      {buttonActived.object.map((items) => {
+        return (
+          <Col xs={4} sm={3} lg={2} xl={1} key={items.id}>
             <button
               className={setActived(items.id)}
-              key={items.id}
               onClick={() => {
                 activeButton(items.id);
                 props.dispatch(optionSelected(items.id));
+                props.dispatch(dataOnCard(null, false));
               }}
+              disabled={items.id == 2 && true}
             >
               {items.option}
             </button>
-          );
-        })}
-      </ButtonGroup>
-    </div>
+          </Col>
+        );
+      })}
+    </Row>
   );
 }
 function propsReducer(state) {

@@ -35,7 +35,6 @@ export const getKabupaten = (id_provinsi = null) => {
     axios
       .request(config)
       .then(function (response) {
-        console.log(id_provinsi);
         dispatch({
           type: WILAYAH_ACTIONS.GET_KABUPATEN,
           payload: {
@@ -95,7 +94,6 @@ export const getKelurahan = (
         },
       })
       .then((res) => {
-        console.log(res.data.data)
         dispatch({
           type: WILAYAH_ACTIONS.GET_KELURAHAN,
           payload: {
