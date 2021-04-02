@@ -1,0 +1,79 @@
+.CardMaps{
+    position: absolute;
+    max-width: 35vw;
+    min-width: 25vw;
+    padding: 5px;
+    right: 0;
+    top: 150px;
+    z-index: 20;
+    max-height: calc(100vh - 170px);
+    overflow: auto;
+    border-radius: 10px;
+    transition: .1s ease-out;
+    /* min-height: 75vh; */
+}
+.CardMaps::-webkit-scrollbar{
+    display: none;
+}
+#close-button{
+    float: right;
+    margin: 5px;
+    background: none;
+    outline: none;
+    border: none;
+}
+#close-button:hover{
+    background: crimson;
+    color: white;
+}
+#close-button:hover #closeIcon{
+    color: white;
+}
+#swipe{
+    display: none;
+    height: 3px;
+    width: 50px;
+    background-color: grey;
+    margin: 5px auto;
+    border-radius: 10px;
+}
+#swipe-wrap{
+    display: none;
+}
+
+p{
+    font-size: 14px;
+}
+tbody tr:hover{
+    background-color: #f7f7f7;
+}
+td{
+    font-size: 14px;
+}
+/* @media only screen and (min-width:800px){
+    .CardMaps{
+        height: 60vh;
+    }
+} */
+@media only screen and (max-width:600px){
+    .CardMaps{
+        position: fixed;
+        top: auto;
+        left: 0;
+        bottom: 0;
+        min-width: 100vw;
+        height: 35vh;
+        padding: 0;
+        border-radius: 10px 10px 0 0;
+        box-shadow: 0 0 20px black;
+    }
+    #close-button{
+        display: none;
+    }
+    #swipe{
+        display: block;
+    }
+    #swipe-wrap{
+        display: block;
+    }
+}

@@ -1,0 +1,14 @@
+.Map{
+    height: 100vh;
+    width: 100%;
+    &:hover{
+        color: blueviolet;
+    }
+}
+.DivIcon {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    color: red;
+}
