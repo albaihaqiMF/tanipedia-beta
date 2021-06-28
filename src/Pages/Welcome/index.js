@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Container } from "reactstrap";
 import { APP_KEY, BaseUrl } from "../../Components/API";
 import MyLoader from "../../Components/Loader";
-import CardMaps from "../../Components/Map/ComponentMaps/CardMaps.";
+import CardMaps from "../../Components/Map/ComponentMaps/CardMaps";
 import Maps from "../../Components/Map/Maps";
 import Navbar from "../../Components/Menu/Navbar";
 import { getLahan, getProfile } from "../../Redux/Action/OptionMenuActions";

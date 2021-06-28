@@ -84,24 +84,6 @@ function Maps(props) {
 
   const [map, setMap] = useState(null);
 
-  // const mapE = useMapEvents()
-
-  // const centerMap = useEffect(() => {
-  //   var i = 0;
-  //   var loop = true;
-  //   do {
-  //     if (
-  //       dataFiltered[i].latitude !== null &&
-  //       dataFiltered[i].longtitude !== null
-  //     ) {
-  //       mapE.flyTo(dataFiltered[i].coordinate, 8);
-  //       loop = false
-  //     }
-  //     console.log(dataFiltered[i])
-  //     i++
-  //   } while (loop);
-  // }, [dataFiltered]);
-
   const MapsEachFeatures = (items, layer) => {
     const name = items.properties;
     // var length = 236 - name.length * 5;
